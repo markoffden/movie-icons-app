@@ -6,6 +6,8 @@ import { MovieIcon } from '../../models/movie-icon';
     templateUrl: './icons-list.component.html'
 })
 export class IconsListComponent implements OnInit {
+    featureFilter = '';
+
     icons: MovieIcon[] = [
         {
             id: 1,
@@ -46,7 +48,7 @@ export class IconsListComponent implements OnInit {
         {
             id: 4,
             name: 'Commando',
-            desc: 'You better never touch his stuff as you may end up dismembered',
+            desc: 'You better never touch his stuff as you may end up riding a missile',
             imageUrl: 'assets/images/commando.jpg',
             thumbUrl: 'assets/images/commando_thumb.jpg',
             quote: {
@@ -122,7 +124,7 @@ export class IconsListComponent implements OnInit {
             id: 10,
             name: 'Spiderman',
             desc:
-                'He can climb the wall, shoot a spider net or any other entertainment for a kids party',
+                'He can climb the wall, shoot a spider web or do any other entertainment for a kids party',
             imageUrl: 'assets/images/spiderman.jpg',
             thumbUrl: 'assets/images/spiderman_thumb.jpg',
             quote: {
@@ -136,4 +138,8 @@ export class IconsListComponent implements OnInit {
     constructor() {}
 
     ngOnInit() {}
+
+    onFilterChange(value: string) {
+        console.log(value);
+    }
 }
