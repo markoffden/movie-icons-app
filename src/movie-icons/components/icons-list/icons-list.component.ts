@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MovieIcon } from '../../models/movie-icon';
+import { MovieIconsService } from '../../services/movie-icons/movie-icons.service';
 
 @Component({
     selector: 'icons-list',
@@ -8,7 +9,8 @@ import { MovieIcon } from '../../models/movie-icon';
 export class IconsListComponent implements OnInit {
     featureFilter = '';
 
-    icons: MovieIcon[] = [
+    icons: MovieIcon[] = [];
+    iconsMock: MovieIcon[] = [
         {
             id: 1,
             name: 'Joker',
@@ -135,9 +137,18 @@ export class IconsListComponent implements OnInit {
         }
     ];
 
-    constructor() {}
+    constructor(private _icons: MovieIconsService) {}
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.getIconsList();
+    }
+
+    getIconsList() {
+        this._icons.getIcons().subscribe(icons => {
+            console.log(icons);
+            this.icons = icons.collection;
+        });
+    }
 
     onFilterChange(value: string) {
         console.log(value);

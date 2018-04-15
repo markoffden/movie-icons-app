@@ -1,0 +1,98 @@
+<form class="row" #addIconForm="ngForm" (submit)="addIcon()">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="icon-name">Name</label>
+            <input type="text"
+                class="form-control" id="icon-name"
+                aria-describedby="iconName"
+                placeholder="Enter icon name"
+                [(ngModel)]="name"
+                name="name"
+                required>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="icon-description">Description</label>
+            <textarea 
+                class="form-control"
+                id="icon-description"
+                aria-describedby="iconDescription"
+                placeholder="Enter icon description"
+                [(ngModel)]="desc"
+                name="description"
+                required>
+            </textarea>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="icon-image">Image URL</label>
+            <input type="text"
+                class="form-control"
+                id="icon-image"
+                aria-describedby="iconImage"
+                placeholder="Enter icon image URL"
+                [(ngModel)]="imageUrl"
+                name="image-url"
+                required>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="icon-thumbnail">Thumbnail URL</label>
+            <input type="text"
+                class="form-control"
+                id="icon-thumbnail"
+                aria-describedby="iconThumbnail"
+                placeholder="Enter icon thumbnail URL"
+                [(ngModel)]="thumbUrl"
+                name="thumb-url"
+                required>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="icon-quote">Icon Quote</label>
+            <input type="text"
+                class="form-control"
+                id="icon-quote"
+                aria-describedby="iconQuote"
+                placeholder="Enter icon quote"
+                [(ngModel)]="quoteText"
+                name="quote-text"
+                required>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="icon-quote-ref">Icon Quote Reference</label>
+            <input type="text"
+                class="form-control"
+                id="icon-quote-ref"
+                aria-describedby="iconQuoteReference"
+                placeholder="Enter icon quote reference"
+                [(ngModel)]="quoteRef"
+                name="quote-reference"
+                required>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h5>Select Icon Features</h5>
+        <div class="form-check" *ngFor="let feature of iconFeatures">
+            <input type="checkbox"
+                class="form-check-input"
+                [attr.id]="'feature-' + feature"
+                [value]="feature"
+                (change)="toggleFeature(feature)"
+                [checked]="selectedFeatures.includes(feature)">
+            <label class="form-check-label"
+                [attr.for]="'feature-' + feature">{{feature | replaceUnderscores }}</label>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <button type="submit"
+            class="btn btn-success float-right"
+            [disabled]="!addIconForm.form.valid || !selectedFeatures.length">Add Icon</button>
+    </div>
+</form>

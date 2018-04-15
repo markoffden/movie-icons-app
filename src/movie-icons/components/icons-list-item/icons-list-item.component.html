@@ -4,6 +4,6 @@
     <div class="card-body">
         <h5 class="card-title">{{icon.name}}</h5>
         <p class="card-text">{{icon.desc}}</p>
-        <a [routerLink]="icon.id" class="btn btn-primary">More</a>
+        <a [routerLink]="['icon', icon.id]" class="btn btn-primary">More</a>
     </div>
 </div>
