@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { MovieIconsService } from '../../services';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MovieIcon } from '../../models/movie-icon';
+import { MovieIconsState } from '../../store/reducers';
+import { Store, select } from '@ngrx/store';
+import { getSelectedIcon } from '../../store/selectors';
+import { UpdateIcon } from '../../store/actions';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
     selector: 'update-icon',
     templateUrl: './update-icon.component.html'
 })
-export class UpdateIconComponent implements OnInit {
+export class UpdateIconComponent implements OnInit, OnDestroy {
     icon: MovieIcon;
-    loadingIcon = false;
 
     iconFeatures: string[] = [
         'terror_addict',
@@ -23,21 +25,16 @@ export class UpdateIconComponent implements OnInit {
         'nonhuman'
     ];
 
-    constructor(private _ar: ActivatedRoute, private _icons: MovieIconsService) {}
+    private _subs: Subscription[] = [];
+
+    constructor(private _store: Store<MovieIconsState>) {}
 
     ngOnInit() {
-        this._ar.params.subscribe(params => {
-            this.loadingIcon = true;
-            this._icons.getSingleIcon(params.id).subscribe(
-                res => {
-                    this.icon = res;
-                },
-                err => {},
-                () => {
-                    this.loadingIcon = false;
-                }
-            );
-        });
+        this._subs.push(
+            this._store
+                .pipe(select(getSelectedIcon))
+                .subscribe(icon => (this.icon = icon ? { ...icon } : null))
+        );
     }
 
     toggleFeature(feature: string) {
@@ -47,8 +44,15 @@ export class UpdateIconComponent implements OnInit {
     }
 
     updateIcon() {
-        this._icons.updateIcon(this.icon.id, this.icon).subscribe(res => {
-            alert('Icon Updated!');
-        });
+        this._store.dispatch(
+            new UpdateIcon({
+                id: this.icon.id,
+                icon: this.icon
+            })
+        );
+    }
+
+    ngOnDestroy() {
+        this._subs.forEach(sub => sub.unsubscribe());
     }
 }

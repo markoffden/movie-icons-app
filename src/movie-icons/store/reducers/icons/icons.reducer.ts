@@ -47,6 +47,22 @@ export function reducer(
                 filter: action.payload
             };
 
+        case actions.ADD_ICON_SUCCESS:
+            return iconAdapter.addOne(action.payload, {
+                ...state
+            });
+
+        case actions.UPDATE_ICON_SUCCESS:
+            return iconAdapter.updateOne(
+                {
+                    id: action.payload.id,
+                    changes: action.payload
+                },
+                {
+                    ...state
+                }
+            );
+
         case actions.DELETE_ICON_SUCCESS:
             return iconAdapter.removeOne(action.payload, {
                 ...state

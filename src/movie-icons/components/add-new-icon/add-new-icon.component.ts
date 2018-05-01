@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MovieIconsService } from '../../services';
+import { MovieIconsState } from '../../store/reducers';
+import { Store } from '@ngrx/store';
+import { AddIcon } from '../../store/actions';
 
 @Component({
     selector: 'add-new-icon',
@@ -26,7 +28,7 @@ export class AddNewIconComponent {
     ];
     selectedFeatures: string[] = [];
 
-    constructor(private _icons: MovieIconsService) {}
+    constructor(private _store: Store<MovieIconsState>) {}
 
     toggleFeature(feature: string) {
         this.selectedFeatures = this.selectedFeatures.includes(feature)
@@ -46,6 +48,6 @@ export class AddNewIconComponent {
             },
             features: [...this.selectedFeatures]
         };
-        this._icons.addIcon(icon).subscribe(res => console.log(res));
+        this._store.dispatch(new AddIcon(icon));
     }
 }

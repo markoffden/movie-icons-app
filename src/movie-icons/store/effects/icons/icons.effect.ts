@@ -7,6 +7,8 @@ import * as actions from '../../actions';
 import * as selectors from '../../selectors';
 import { withLatestFrom, switchMap, map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
+import { from } from 'rxjs/observable/from';
+import { Go } from '../../../../app/store/actions/router/router.actions';
 
 @Injectable()
 export class IconsEffects {
@@ -38,6 +40,49 @@ export class IconsEffects {
     filterChange$ = this._actions$.pipe(
         ofType(actions.ICONS_FILTER_CHANGE),
         map(action => new actions.GetIcons())
+    );
+
+    /**
+     * Add icon action effect
+     *
+     * @memberof IconsEffects
+     */
+    @Effect()
+    addIcon$ = this._actions$.pipe(
+        ofType(actions.ADD_ICON),
+        switchMap((action: any) => {
+            return this._icons
+                .addIcon(action.payload)
+                .pipe(
+                    switchMap(icon =>
+                        from([new actions.AddIconSuccess(icon), new Go({ path: ['/movie-icons'] })])
+                    ),
+                    catchError(err => of(new actions.AddIconFail(err)))
+                );
+        })
+    );
+
+    /**
+     * Update icon action effect
+     *
+     * @memberof IconsEffects
+     */
+    @Effect()
+    updateIcon$ = this._actions$.pipe(
+        ofType(actions.UPDATE_ICON),
+        switchMap((action: any) => {
+            return this._icons
+                .updateIcon(action.payload.id, action.payload.icon)
+                .pipe(
+                    switchMap(icon =>
+                        from([
+                            new actions.UpdateIconSuccess(icon),
+                            new Go({ path: ['/movie-icons'] })
+                        ])
+                    ),
+                    catchError(err => of(new actions.UpdateIconFail(err)))
+                );
+        })
     );
 
     /**

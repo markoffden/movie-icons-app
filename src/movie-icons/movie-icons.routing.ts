@@ -10,5 +10,9 @@ export const movieIconsRoutes: Routes = [
         canActivate: [guards.SingleIconExistsGuard]
     },
     { path: 'add-new', component: comp.AddNewIconComponent },
-    { path: 'edit/:id', component: comp.UpdateIconComponent }
+    {
+        path: 'edit/:id',
+        component: comp.UpdateIconComponent,
+        canActivate: [guards.SingleIconExistsGuard]
+    }
 ];
