@@ -1,30 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { MovieIcon } from '../../models/movie-icon';
-import { ActivatedRoute } from '@angular/router';
-import { MovieIconsService } from '../../services';
+import { Observable } from 'rxjs/Observable';
+import { Store, select } from '@ngrx/store';
+import { MovieIconsState } from '../../store/reducers';
+import { getSelectedIcon } from '../../store/selectors';
 
 @Component({
     selector: 'single-icon',
     templateUrl: './single-icon.component.html'
 })
 export class SingleIconComponent implements OnInit {
-    icon: MovieIcon;
-    loadingIcon = false;
+    icon$: Observable<MovieIcon>;
 
-    constructor(private _ar: ActivatedRoute, private _icons: MovieIconsService) {}
+    constructor(private _store: Store<MovieIconsState>) {}
 
     ngOnInit() {
-        this._ar.params.subscribe(params => {
-            this.loadingIcon = true;
-            this._icons.getSingleIcon(params.id).subscribe(
-                res => {
-                    this.icon = res;
-                },
-                err => {},
-                () => {
-                    this.loadingIcon = false;
-                }
-            );
-        });
+        this.icon$ = this._store.pipe(select(getSelectedIcon));
     }
 }
