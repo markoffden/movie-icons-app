@@ -1,31 +1,37 @@
-<div class="row mb-3">
-    <div class="col-md-6">
-        <img src="assets/images/joker.jpg" alt="Pic of Joker">
+<section *ngIf="icon; else noItem">
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <img [attr.src]="icon.imageUrl" [attr.alt]="'Pic of' + icon.name">
+        </div>
+        <div class="col-md-6">
+            <h4>Name</h4>
+            <p>{{ icon.name }}</p>
+            <h4>Description</h4>
+            <p>{{ icon.desc }}</p>
+            <h4>Features</h4>
+            <ul>
+                <li *ngFor="let feature of icon.features">{{ feature | replaceUnderscores }}</li>
+            </ul>
+        </div>
     </div>
-    <div class="col-md-6">
-        <h4>Name</h4>
-        <p>Joker</p>
-        <h4>Description</h4>
-        <p>The guy to put Gotham city in trouble</p>
-        <h4>Features</h4>
-        <ul>
-            <li>threatens citizens</li>
-            <li>kidnaps people</li>
-            <li>talks a lot</li>
-            <li>very smart</li>
-        </ul>
+    <div class="card">
+        <div class="card-header">
+            Quote
+        </div>
+        <div class="card-body">
+            <blockquote class="blockquote mb-0">
+                <p>{{ icon.quote.text }}</p>
+                <footer class="blockquote-footer">from 
+                    <cite title="Source Title">{{ icon.quote.ref }}</cite>
+                </footer>
+            </blockquote>
+        </div>
     </div>
-</div>
-<div class="card">
-    <div class="card-header">
-        Quote
+</section>
+
+<ng-template #noItem>
+    <div class="text-center mb-3">
+        <loading *ngIf="loadingIcon"></loading>
+        <p *ngIf="!loadingIcon">No single icon info to show here so far</p> 
     </div>
-    <div class="card-body">
-        <blockquote class="blockquote mb-0">
-            <p>Why so seriuos?</p>
-            <footer class="blockquote-footer">from 
-                <cite title="Source Title">The Dark Knight</cite>
-            </footer>
-        </blockquote>
-    </div>
-</div>
+</ng-template>

@@ -1,5 +1,5 @@
 export interface MovieIcon {
-    id: number;
+    id: string;
     name: string;
     desc: string;
     imageUrl: string;

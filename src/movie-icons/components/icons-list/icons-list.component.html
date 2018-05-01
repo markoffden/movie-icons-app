@@ -1,21 +1,33 @@
-<select class="mb-3" name="feture-filter"
-[(ngModel)]="featureFilter" (ngModelChange)="onFilterChange($event)">
-    <option value="">show all</option>
-    <option value="very_smart">very smart</option>
-    <option value="terror_addict">terror addict</option>
-    <option value="talks_a_lot">talks a lot</option>
-    <option value="saves_cities">saves cities</option>
-    <option value="has_fancy_costume">has fancy costume</option>
-    <option value="weapon_master">weapon master</option>
-    <option value="nonhuman">nonhuman</option>
-    <option value="muscle_machine">muscle machine</option>
-    <option value="has_special_powers">has special powers</option>
-</select>
+<section *ngIf="icons.length; else: noItems">
 
-<div class="row">
-    <div icons-list-item
-    *ngFor="let icon of icons" [icon]="icon"
-    class="col-sm-4 col-md-3 mb-3"></div>
-</div>
+    <select class="mb-3" name="feture-filter"
+    [(ngModel)]="featureFilter" (ngModelChange)="onFilterChange($event)">
+        <option value="">show all</option>
+        <option value="very_smart">very smart</option>
+        <option value="terror_addict">terror addict</option>
+        <option value="talks_a_lot">talks a lot</option>
+        <option value="saves_cities">saves cities</option>
+        <option value="has_fancy_costume">has fancy costume</option>
+        <option value="weapon_master">weapon master</option>
+        <option value="nonhuman">nonhuman</option>
+        <option value="muscle_machine">muscle machine</option>
+        <option value="has_special_powers">has special powers</option>
+    </select>
+
+    <div class="row">
+        <div icons-list-item
+        *ngFor="let icon of icons" [icon]="icon"
+        (delete)="deleteIcon($event)"
+        class="col-sm-4 col-md-3 mb-3"></div>
+    </div>
+
+</section>
+
+<ng-template #noItems>
+    <div class="text-center mb-3">
+        <loading *ngIf="loadingIcons"></loading>
+        <p *ngIf="!loadingIcons">No icons to show here so far</p> 
+    </div>
+</ng-template>
 
 <button class="btn btn-info" [routerLink]="['add-new']">Add New</button>
