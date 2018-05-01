@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../../../app/services';
+import { MovieIcon } from '../../models/movie-icon';
 
 @Injectable()
 export class MovieIconsService {
@@ -35,6 +36,18 @@ export class MovieIconsService {
      */
     addIcon(icon: any) {
         return this._api.post('icons', icon);
+    }
+
+    /**
+     * Update icon
+     *
+     * @param {string} id
+     * @param {MovieIcon} icon
+     * @returns
+     * @memberof MovieIconsService
+     */
+    updateIcon(id: string, icon: MovieIcon) {
+        return this._api.put(`icons/${id}`, icon);
     }
 
     /**

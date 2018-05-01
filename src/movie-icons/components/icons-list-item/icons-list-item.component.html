@@ -6,6 +6,9 @@
         <p class="card-text">{{icon.desc}}</p>
         <button class="btn btn-danger btn-sm"
             (click)="deleteIcon()">Del</button>
-        <a [routerLink]="['icon', icon.id]" class="btn btn-primary">More</a>
+        <a [routerLink]="['edit', icon.id]"
+            class="btn btn-warning btn-sm">Upd</a>
+        <a [routerLink]="['icon', icon.id]"
+            class="btn btn-primary">More</a>
     </div>
 </div>
