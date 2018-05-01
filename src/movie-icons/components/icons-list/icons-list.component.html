@@ -1,7 +1,8 @@
-<section *ngIf="icons.length; else: noItems">
+<section *ngIf="(icons$ | async)?.length; else: noItems">
 
-    <select class="mb-3" name="feture-filter"
-    [(ngModel)]="featureFilter" (ngModelChange)="onFilterChange($event)">
+    <select class="mb-3" name="feature-filter"
+        [ngModel]="filter$ | async"
+        (ngModelChange)="onFilterChange($event)">
         <option value="">show all</option>
         <option value="very_smart">very smart</option>
         <option value="terror_addict">terror addict</option>
@@ -16,8 +17,7 @@
 
     <div class="row">
         <div icons-list-item
-        *ngFor="let icon of icons" [icon]="icon"
-        (delete)="deleteIcon($event)"
+        *ngFor="let icon of (icons$ | async)" [icon]="icon"
         class="col-sm-4 col-md-3 mb-3"></div>
     </div>
 
@@ -25,8 +25,8 @@
 
 <ng-template #noItems>
     <div class="text-center mb-3">
-        <loading *ngIf="loadingIcons"></loading>
-        <p *ngIf="!loadingIcons">No icons to show here so far</p> 
+        <loading *ngIf="loading$ | async"></loading>
+        <p *ngIf="!(loading$ | async)">No icons to show here so far</p> 
     </div>
 </ng-template>
 

@@ -16,15 +16,26 @@ import { services } from './services';
 // pipes
 import { pipes } from './pipes';
 
+// guards
+import { guards } from './guards';
+
+// store
+import { StoreModule } from '@ngrx/store';
+import { reducers } from './store/reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { effects } from './store/effects';
+
 @NgModule({
     imports: [
         HttpClientModule,
         CommonModule,
         RouterModule.forChild(movieIconsRoutes),
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        StoreModule.forFeature('movie-icons', reducers),
+        EffectsModule.forFeature(effects)
     ],
-    providers: [...services],
+    providers: [...services, ...guards],
     declarations: [...components, ...pipes],
     exports: [...components]
 })
